@@ -22,9 +22,12 @@ class SearchController extends Controller
             env('EDS_ORG')
         );
 
-        $items = $discovery->search($request);
+        $result = $discovery->search($request);
+        $items = $result['items'];
+        $source_types = $result['source_types'];
+        $subjects = $result['subjects'];
 
-        return view('search.results', compact('items'));
+        return view('search.results', compact('items', 'source_types', 'subjects'));
 
     }
 

@@ -50,8 +50,10 @@ class EDSAPI
         ]);
 
         $items = $this->processResponse($response);
+        $source_types = $this->getSourceTypes($response);
+        $subjects = $this->getSubjectFacets($response);
 
-        return $items;
+        return ['items' => $items , 'source_types' => $source_types, 'subjects' => $subjects];
 
     }
 
@@ -90,18 +92,92 @@ class EDSAPI
     {
 
         $results = json_decode($response->getBody());
-
+        //dd($results->SearchResult);
         $items = [];
         // Perhaps have some customs getters to format data and determine best data
         foreach($results->SearchResult->Data->Records as $record){
             $items[] = [
-                'name' => collect($record->Items)->where('Name', 'Title')->first()->Data,
-                'link' => $record->PLink
+                'name' => $this->getName($record),
+                'author' => $this->getAuthor($record),
+                'link' => $record->PLink,
+                'image' => $this->getImage($record),
+                'subjects' => $this->getSubjects($record)
             ];
         }
 
         return $items;
 
+    }
+
+    private function getName($record)
+    {
+        $name = '';
+        try{
+            $name = collect($record->Items)->where('Name', 'Title')->first()->Data;
+        }catch(\Exception $e){
+
+        }
+        return $name;
+    }
+
+    private function getAuthor($record)
+    {
+        $author = '';
+        try{
+            $author = collect($record->Items)->where('Name', 'Author')->first()->Data;
+        }catch(\Exception $e){
+
+        }
+        return $author;
+    }
+
+    private function getImage($record)
+    {
+        $image = '';
+        try{
+            $image = $record->ImageInfo[0]->Target;
+        }catch(\Exception $e){
+
+        }
+        return $image;
+    }
+
+    private function getSubjects($record)
+    {
+        $subjects = [];
+        try{
+            $subjects = explode('<br />', html_entity_decode(collect($record->Items)->where('Name', 'Subject')->first()->Data));
+        }catch(\Exception $e){
+
+        }
+        return $subjects;
+    }
+
+    private function getSourceTypes($response)
+    {
+        $results = json_decode($response->getBody());
+        $types = [];
+        try{
+            $types = collect(collect($results->SearchResult->AvailableFacets)->where('Id', 'SourceType')->first()->AvailableFacetValues)->all();
+            //dd($types);
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
+        return $types;
+    }
+
+    private function getSubjectFacets($response)
+    {
+        $results = json_decode($response->getBody());
+        //dd($results);
+        $subjects = [];
+        try{
+            $subjects = collect(collect($results->SearchResult->AvailableFacets)->where('Id', 'SubjectEDS')->first()->AvailableFacetValues)->all();
+            //dd($types);
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
+        return $subjects;
     }
 
     private function getAuthToken()

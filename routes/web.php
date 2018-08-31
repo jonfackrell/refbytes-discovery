@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'SearchController@index');
+Route::get('/search', 'SearchController@index')->name('search');
 
 Auth::routes();
 

@@ -10,6 +10,7 @@
                 </div>
             </div>
         {!! BootForm::close() !!}
+        <div id="date-range-slider"></div>
     </div>
 </div>
 

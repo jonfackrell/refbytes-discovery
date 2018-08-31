@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The folders that belong to the user.
+     */
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
 }

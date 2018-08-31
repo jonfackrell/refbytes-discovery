@@ -21,6 +21,10 @@ class CreateInstitutionsTable extends Migration
             $table->string('org');
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('institution_id')->unsigned();
+        });
     }
 
     /**
@@ -30,6 +34,10 @@ class CreateInstitutionsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('institution_id');
+        });
         Schema::dropIfExists('institutions');
     }
 }

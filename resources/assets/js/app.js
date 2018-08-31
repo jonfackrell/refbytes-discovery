@@ -15,8 +15,28 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+//Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+Vue.config.ignoredElements = ['highlight', 'searchlink', 'relatesto'];
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    mounted: function(){
+
+        var behaviourSlider = document.getElementById('date-range-slider');
+
+        noUiSlider.create(behaviourSlider, {
+            start: [ 20, 40 ],
+            animate: true,
+            tooltips: [true, true],
+            step: 1,
+            behaviour: 'tap-drag',
+            connect: true,
+            range: {
+                'min':  [0],
+                'max':  [100]
+            }
+        });
+
+    }
 });

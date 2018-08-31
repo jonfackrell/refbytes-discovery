@@ -14,4 +14,12 @@ class Institution extends Model
     protected $fillable = [
         'userid', 'password', 'profile', 'org',
     ];
+
+    /**
+     * The users that belong to the institution.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

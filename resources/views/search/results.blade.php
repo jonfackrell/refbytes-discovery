@@ -14,9 +14,13 @@
                                 {!! BootForm::checkbox('Scholarly (Peer Reviewed) Journals', 'peer_reviewed') !!}
                                 {!! BootForm::checkbox('Catalog Only', 'catalog_only') !!}
                             </div>
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <br/>
+
+                                <br/>
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-header" id="headingOne">
@@ -82,9 +86,9 @@
                             </p>
                             <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
                             <p class="mb-0">
-                                @foreach($item['subjects'] as $subject)
-                                    <span class="badge badge-secondary">{!! $subject !!}</span>
-                                @endforeach
+                                {{--@foreach($item['subjects'] as $subject)--}}
+                                    {{--<span class="badge badge-secondary">{!! $subject !!}</span>--}}
+                                {{--@endforeach--}}
                             </p>
                         </div>
 
@@ -102,3 +106,22 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    {{--<script src="/js/jquery-ui.min.js"></script>--}}
+    {{--<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>--}}
+    {{--<script src="/js/jQEditRangeSlider-min.js"></script>--}}
+    {{--<script src="/js/jQAllRangeSliders-min.js"></script>--}}
+
+    <script>
+
+
+
+    </script>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="/css/nouislider.min.css" />
+@endpush
+
+
